@@ -1,8 +1,14 @@
 pipeline {
     agent any
+    environment {
+        MAVEN_HOME = '/opt/maven'
+        PATH = "${env.PATH}:${env.MAVEN_HOME}/bin"
+    }
     stages {
         stage('Build') {
             steps {
+                sh 'echo $PATH' // Confirm PATH includes Maven
+                sh 'mvn -v'      // Verify that mvn command is accessible
                 sh 'mvn -B -DskipTests clean package'
             }
         }
